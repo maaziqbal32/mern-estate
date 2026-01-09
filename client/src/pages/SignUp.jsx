@@ -40,8 +40,6 @@ export default function SignUp() {
       setError(error.message);
     }
   };
-  console.log(formData);
-
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl text-center py-7 font-semibold">Sign Up</h1>
