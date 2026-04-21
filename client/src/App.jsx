@@ -8,8 +8,8 @@ import Profile from "./pages/Profile";
 import Header from "./components/Header";
 
 function App() {
-  const user = useSelector((state) => state.user);
-  console.log("Redux State:", user);
+  // const user = useSelector((state) => state.user);
+  // console.log("Redux State:", user);
   return (
     <BrowserRouter>
       <Header />
