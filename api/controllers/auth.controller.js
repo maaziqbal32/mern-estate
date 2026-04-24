@@ -54,7 +54,7 @@ export const google = async (req, res, next) => {
       });
       await newUser.save();
       const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
-      const { password, ...otherDetails } =newUser._doc;
+      const { password, ...otherDetails } = newUser._doc;
       res
         .cookie("access_token", token, { httpOnly: true })
         .status(200)
@@ -65,3 +65,12 @@ export const google = async (req, res, next) => {
     next(err);
   }
 };
+
+export const signout = (req, res, next) => {
+  try {
+    res.clearCookie("access_token");
+    res.status(200).json('User has been logged out!');
+  } catch (error) {
+    next(error);
+  }
+}
