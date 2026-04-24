@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux"
 import { useRef, useState, useEffect } from "react";
 import { getStorage, ref } from "firebase/storage";
-import { updateUserFailure, updateUserStart, updateUserSuccess } from "../redux/user/userSlice";
+import { updateUserFailure, updateUserStart, updateUserSuccess, deleteUserFailure, deleteUserStart, deleteUserSuccess } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 
 export default function Profile() {
@@ -9,7 +9,7 @@ export default function Profile() {
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({})
-  const [updateUser , setUpdateUser] = useState(false);
+  const [updateUser, setUpdateUser] = useState(false);
   const dispatch = useDispatch();
   const { currentUser, loading, error } = useSelector((state) => state.user);
   const fileRef = useRef(null);
@@ -74,6 +74,24 @@ export default function Profile() {
       dispatch(updateUserFailure(error.message));
     }
   };
+
+  const handleDeleteUser = async () => {
+    dispatch(deleteUserStart());
+    try {
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: 'DELETE',
+      })
+      const data = await res.json();
+
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data.message));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
+    }
+  }
   return (
     <div className="max-w-lg mx-auto p-3">
       <h1 className='text-3xl text-center font-semibold my-7'>Profile</h1>
@@ -104,7 +122,9 @@ export default function Profile() {
         </button>
       </form>
       <div className="flex justify-between mt-5">
-        <span className="text-red-700 hover:underline cursor-pointer" >
+        <span
+          onClick={handleDeleteUser}
+          className="text-red-700 hover:underline cursor-pointer" >
           Delete Account
         </span>
         <span className="text-red-700 hover:underline cursor-pointer" >
