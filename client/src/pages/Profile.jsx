@@ -4,6 +4,7 @@ import { getStorage, ref } from "firebase/storage";
 import { updateUserFailure, updateUserStart, updateUserSuccess, deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserStart, signOutUserSuccess, signOutUserFailure } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import { errorHandler } from "../../../api/utils/errors";
+import {Link} from 'react-router-dom';  
 
 export default function Profile() {
   const [file, setFile] = useState(undefined);
@@ -135,6 +136,9 @@ export default function Profile() {
           className="uppercase p-3 bg-slate-700 rounded-lg hover:opacity-95 disabled:opacity-80 text-white" >
           {loading ? 'Updating..' : 'update'}
         </button>
+        <Link to="/create-listing" className="text-center uppercase p-3 bg-blue-700 rounded-lg hover:opacity-95 disabled:opacity-80 text-white" >
+          Create Listing
+        </Link>
       </form>
       <div className="flex justify-between mt-5">
         <span
